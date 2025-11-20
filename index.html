@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>인생 타이머 & 생활습관 설문</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>인생 타이머 (대한민국 평균 기대수명 기반)</h1>
+    <p class="sub">
+      통계청 2023년 간이생명표(5세별, 전체 인구 기준)의 <b>연령별 기대여명</b>을 이용해
+      <b>살아온 시간</b>과 <b>남은 예상 수명</b>을 보여줍니다. 개인의 실제 수명을 예측하는 도구는 아닙니다.
+    </p>
+
+    <!-- 🟡 1. 생활습관 설문 (맨 위로 이동) -->
+    <section id="survey-section" class="card">
+      <h2 class="title">생활습관 설문</h2>
+      <p class="sub">
+        아래 항목을 간단히 입력하면, 이후에 BMI·건강 점수·리포트를 계산하는 데 사용됩니다.
+        생년월일은 아래 타이머에도 함께 사용됩니다.
+      </p>
+
+      <form id="lifestyle-form">
+        <!-- 설문용 생년월일 = 타이머에 쓰는 생년월일 -->
+        <div class="row">
+          <label for="survey-birth">생년월일</label>
+          <input
+            id="survey-birth"
+            name="birth"
+            type="date"
+            required
+          />
+        </div>
+
+        <!-- 키 / 체중 -->
+        <div class="row">
+          <label for="height">키 (cm)</label>
+          <input
+            id="height"
+            name="height"
+            type="number"
+            min="50"
+            max="250"
+            placeholder="예: 175"
+            required
+          />
+        </div>
+
+        <div class="row">
+          <label for="weight">체중 (kg)</label>
+          <input
+            id="weight"
+            name="weight"
+            type="number"
+            min="20"
+            max="250"
+            placeholder="예: 68"
+            required
+          />
+        </div>
+
+        <!-- 흡연 -->
+        <div class="row">
+          <label for="smoking">흡연 빈도</label>
+          <select id="smoking" name="smoking" required>
+            <option value="" disabled selected>선택해주세요</option>
+            <option value="none">전혀 피우지 않음</option>
+            <option value="rare">가끔 (주 1~2회)</option>
+            <option value="light">매일, 하루 1~5개비</option>
+            <option value="medium">매일, 하루 6~10개비</option>
+            <option value="heavy">매일, 하루 11개비 이상</option>
+          </select>
+        </div>
+
+        <!-- 음주 -->
+        <div class="row">
+          <label for="alcohol">음주 빈도</label>
+          <select id="alcohol" name="alcohol" required>
+            <option value="" disabled selected>선택해주세요</option>
+            <option value="none">전혀 마시지 않음</option>
+            <option value="rare">가끔 (월 1~2회)</option>
+            <option value="weekly">주 1~2회</option>
+            <option value="often">주 3회 이상</option>
+          </select>
+        </div>
+
+        <!-- 운동 -->
+        <div class="row">
+          <label for="exercise">운동 시간 (주당, 시간)</label>
+          <input
+            id="exercise"
+            name="exercise_hours_per_week"
+            type="number"
+            min="0"
+            max="168"
+            step="0.5"
+            placeholder="예: 3 (주당 3시간)"
+            required
+          />
+        </div>
+
+        <!-- 수면 -->
+        <div class="row">
+          <label for="sleep">평균 수면시간 (하루, 시간)</label>
+          <input
+            id="sleep"
+            name="sleep_hours"
+            type="number"
+            min="0"
+            max="24"
+            step="0.5"
+            placeholder="예: 7.5"
+            required
+          />
+        </div>
+
+        <!-- 식사 -->
+        <div class="row">
+          <label for="meals">하루 식사 횟수</label>
+          <input
+            id="meals"
+            name="meals_per_day"
+            type="number"
+            min="0"
+            max="10"
+            placeholder="예: 3"
+            required
+          />
+        </div>
+
+        <div style="margin-top: 16px; text-align: right;">
+          <button type="submit" id="survey-submit-btn">
+            설문 제출
+          </button>
+        </div>
+      </form>
+
+      <pre id="survey-debug" class="sub"></pre>
+    </section>
+
+    <!-- 🟢 2. 타이머 영역 (아래로 내려감, 별도 생년월일 입력 없음) -->
+
+    <!-- 살아온 시간 -->
+    <section class="card">
+      <h2 class="title">지금까지 살아온 시간</h2>
+      <div id="lived-main" class="stat-main">생년월일을 입력하면 계산됩니다.</div>
+      <div class="sub">(일 + 시:분:초, 연도는 평균 태양년 기준 근사)</div>
+
+      <div class="grid">
+        <div class="pill">
+          <div class="label">총 일수</div>
+          <div class="value" id="lived-days">-</div>
+        </div>
+        <div class="pill">
+          <div class="label">총 시간</div>
+          <div class="value" id="lived-hours">-</div>
+        </div>
+        <div class="pill">
+          <div class="label">총 분</div>
+          <div class="value" id="lived-mins">-</div>
+        </div>
+        <div class="pill">
+          <div class="label">총 초</div>
+          <div class="value" id="lived-secs">-</div>
+        </div>
+        <div class="pill">
+          <div class="label">대략 몇 년?</div>
+          <div class="value" id="lived-years">- 년</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 남은 예상 수명 -->
+    <section class="card">
+      <h2 class="title">남은 예상 수명 (통계 기준)</h2>
+      <div id="remain-main" class="stat-main">생년월일을 입력하면 계산됩니다.</div>
+      <div class="sub">
+        통계청 2023년 생명표에서, 현재 나이에 해당하는 <b>기대여명(전체)</b> 값을 사용해
+        “지금 이 시점에서 남은 평균 수명”을 근사한 값입니다.
+      </div>
+
+      <div class="grid">
+        <div class="pill">
+          <div class="label">남은 연수 (기대여명)</div>
+          <div class="value" id="remain-years">- 년</div>
+        </div>
+        <div class="pill">
+          <div class="label">남은 일수 (근사)</div>
+          <div class="value" id="remain-days">- 일</div>
+        </div>
+        <div class="pill">
+          <div class="label">남은 시간 (근사)</div>
+          <div class="value" id="remain-hours">- 시간</div>
+        </div>
+        <div class="pill">
+          <div class="label">예상 수명 도달 시점 (대략)</div>
+          <div class="value" id="expected-death-date">-</div>
+        </div>
+      </div>
+
+      <p class="sub danger">
+        ※ 이 값은 “대한민국 인구 전체의 평균 패턴”을 단순히 적용한 것이며,
+        개인의 실제 건강이나 생활습관, 사고, 질병 등을 반영하지 않습니다.
+      </p>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
