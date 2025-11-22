@@ -57,13 +57,14 @@
             </div>
 
             <div class="form-group">
-                <label for="smoking">흡연 빈도</label>
+                <label for="smoking">흡연량</label>
                 <select id="smoking">
                     <option value="none">비흡연</option>
-                    <option value="rare">가끔</option>
-                    <option value="light">주 1~2회</option>
-                    <option value="medium">거의 매일</option>
-                    <option value="heavy">하루 반갑 이상</option>
+                    <option value="month12">한 달에 1~2회 이하</option>
+                    <option value="week12">주 1~2회</option>
+                    <option value="halfday">하루 반갑 이하</option>
+                    <option value="halfmore">하루 반갑 이상</option>
+                    <option value="onemore">하루 한 갑 이상</option>
                 </select>
             </div>
 
@@ -71,9 +72,10 @@
                 <label for="alcohol">음주 빈도</label>
                 <select id="alcohol">
                     <option value="none">거의 안 마심</option>
-                    <option value="rare">가끔 모임에서만</option>
+                    <option value="rare">한 달에 1~2회 이하</option>
                     <option value="weekly">주 1~2회</option>
-                    <option value="often">주 3회 이상</option>
+                    <option value="often">주 3~4회</option>
+                    <option value="daily">거의 매일</option>
                 </select>
             </div>
 
@@ -83,17 +85,17 @@
             </div>
 
             <div class="form-group">
-                <label for="workHours">하루 일 / 공부 시간 (시간)</label>
+                <label for="workHours">하루 일(업무 / 학업) 시간 (시간)</label>
                 <input type="number" id="workHours" min="0" max="24" step="0.5" />
             </div>
 
             <div class="form-group">
-                <label for="leisureHours">하루 여가 시간 (시간)</label>
+                <label for="leisureHours">하루 자기개발(공부/독서) 시간 (시간)</label>
                 <input type="number" id="leisureHours" min="0" max="24" step="0.5" />
             </div>
 
             <div class="form-group">
-                <label for="restHours">하루 휴식(멍때리기 포함) 시간 (시간)</label>
+                <label for="restHours">하루 여가 시간 (시간)</label>
                 <input type="number" id="restHours" min="0" max="24" step="0.5" />
             </div>
 
@@ -112,12 +114,24 @@
                 <h2>살아온 시간 타이머</h2>
                 <p class="card-desc">태어난 이후 지금까지 흘러온 시간을 실시간으로 보여줍니다.</p>
                 <div id="lived-time" class="timer-value">설문을 먼저 입력해주세요.</div>
+                <div class="timer-sub">
+                    <div id="lived-days"></div>
+                    <div id="lived-hours"></div>
+                    <div id="lived-minutes"></div>
+                    <div id="lived-seconds"></div>
+                </div>
             </div>
 
             <div class="card">
                 <h2>기대 수명 타이머</h2>
                 <p class="card-desc">통계청 기대수명을 기준으로, 앞으로 남은 시간을 계산합니다.</p>
                 <div id="life-expect-time" class="timer-value">설문을 먼저 입력해주세요.</div>
+                <div class="timer-sub">
+                    <div id="remain-days"></div>
+                    <div id="remain-hours"></div>
+                    <div id="remain-minutes"></div>
+                    <div id="remain-seconds"></div>
+                </div>
             </div>
 
             <div class="card">
@@ -137,12 +151,12 @@
 
     </section>
 
-    <!-- 2. 하단 카드 (각각 한 줄 전체) -->
+    <!-- 2. 하단 카드 -->
     <section class="bottom-grid">
 
-        <!-- 신체 건강 지표 -->
+        <!-- 신체 건강 + 라이프스타일 -->
         <div class="card">
-            <h2>신체 건강 지표</h2>
+            <h2>신체 건강 & 라이프스타일</h2>
             <p class="card-desc">
                 키와 몸무게, 운동량 기반으로 BMI와 AI 라이프스타일 타입을 분석합니다.
             </p>
@@ -151,7 +165,6 @@
                 <strong>BMI:</strong> <span id="bmi">-</span>
             </div>
 
-            <h3>AI 라이프스타일 분석</h3>
             <div class="lifestyle-box">
                 <p><strong id="lifestyle-type">설문을 먼저 입력해주세요.</strong></p>
                 <p id="lifestyle-desc">BMI와 주간 운동시간을 기반으로 당신의 라이프스타일 유형을 분류합니다.</p>
@@ -165,15 +178,20 @@
             <p class="card-desc">
                 수면, 운동, 흡연, 음주 습관을 점수화하여, 가상의 전체 인구와 비교한 순위를 보여줍니다.
             </p>
-
             <div id="habit-rankings"></div>
+        </div>
 
-            <h3>AI 건강 점수</h3>
+        <!-- AI 건강 점수 -->
+        <div class="card">
+            <h2>AI 건강 점수</h2>
+            <p class="card-desc">
+                나이, BMI, 운동량과 생활 습관을 바탕으로 종합 건강 점수를 계산합니다.
+            </p>
             <div class="ai-score">
                 <span id="ai-score-value">-</span> / 100
             </div>
             <p id="ai-score-desc">
-                설문을 입력하면 AI가 전반적인 건강 점수를 계산해줍니다.
+                설문을 입력하면 AI가 전반적인 건강 점수와 개선 포인트를 알려줍니다.
             </p>
         </div>
 
@@ -181,10 +199,14 @@
         <div class="card">
             <h2>삶의 밸런스</h2>
             <p class="card-desc">
-                하루를 일/공부, 여가, 휴식으로 나누어 얼마나 균형 잡혀 있는지 확인합니다.
+                하루를 일(업무/학업), 자기개발, 여가로 나누어 어느 쪽 비중이 높은지 확인합니다.
             </p>
 
-            <div id="balance-chart"></div>
+            <div id="balance-chart">
+                <div class="balance-segment balance-work"></div>
+                <div class="balance-segment balance-self"></div>
+                <div class="balance-segment balance-leisure"></div>
+            </div>
             <p id="balance-desc"></p>
         </div>
 
