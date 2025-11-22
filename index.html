@@ -1,299 +1,198 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <title>인생 전적 검색</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YourLife.GG - 인생 전적 검색</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-  <div class="wrap">
-    <h1>인생 전적 검색</h1>
-    <p class="sub">
-      대한민국 통계 기반 인생 타이머 + 생활습관 랭킹 + 재미형 지표 대시보드
-    </p>
+<header>
+    <h1>YourLife.GG</h1>
+    <p>인생 전적 검색 – 내 삶의 전적을 한눈에 보는 대시보드</p>
+</header>
 
-    <!-- 1. 생활습관 설문 -->
+<main class="container">
+
+    <!-- 0. 설문 입력 섹션 -->
     <section id="survey-section" class="card">
-      <h2 class="title">생활습관 설문</h2>
+        <h2>내 정보 입력</h2>
+        <p class="card-desc">
+            아래 정보를 입력하면, 살아온 시간부터 건강 지표, 삶의 밸런스까지 한 번에 분석해 드립니다.
+        </p>
 
-      <form id="lifestyle-form">
-        <!-- 성별 -->
-        <div class="row">
-          <label>성별</label>
-          <div class="radio-group">
-            <label><input type="radio" name="gender" value="male" required> 남성</label>
-            <label><input type="radio" name="gender" value="female" required> 여성</label>
-          </div>
-        </div>
+        <form id="life-form" class="form-grid">
+            <div class="form-group">
+                <label for="birthdate">생년월일</label>
+                <input type="date" id="birthdate" required />
+            </div>
 
-        <!-- 생년월일 -->
-        <div class="row">
-          <label for="survey-birth">생년월일</label>
-          <input id="survey-birth" name="birth" type="date" required />
-        </div>
+            <div class="form-group">
+                <label for="gender">성별</label>
+                <select id="gender">
+                    <option value="male">남성</option>
+                    <option value="female">여성</option>
+                </select>
+            </div>
 
-        <!-- 키 / 체중 -->
-        <div class="row">
-          <label for="height">키 (cm)</label>
-          <input id="height" name="height" type="number" required />
-        </div>
+            <div class="form-group">
+                <label for="height">키 (cm)</label>
+                <input type="number" id="height" min="100" max="250" step="0.1" required />
+            </div>
 
-        <div class="row">
-          <label for="weight">체중 (kg)</label>
-          <input id="weight" name="weight" type="number" required />
-        </div>
+            <div class="form-group">
+                <label for="weight">몸무게 (kg)</label>
+                <input type="number" id="weight" min="30" max="200" step="0.1" required />
+            </div>
 
-        <!-- 흡연 -->
-        <div class="row">
-          <label for="smoking">흡연 빈도</label>
-          <select id="smoking" name="smoking" required>
-            <option value="none">전혀 피우지 않음</option>
-            <option value="rare">가끔 (주 1~2회)</option>
-            <option value="light">매일 1~5개비</option>
-            <option value="medium">매일 6~10개비</option>
-            <option value="heavy">매일 11개비 이상</option>
-          </select>
-        </div>
+            <div class="form-group">
+                <label for="sleepHours">하루 평균 수면시간 (시간)</label>
+                <input type="number" id="sleepHours" min="0" max="24" step="0.1" required />
+            </div>
 
-        <!-- 음주 -->
-        <div class="row">
-          <label for="alcohol">음주 빈도</label>
-          <select id="alcohol" name="alcohol">
-            <option value="none">전혀 마시지 않음</option>
-            <option value="rare">가끔 (월 1~2회)</option>
-            <option value="weekly">주 1~2회</option>
-            <option value="often">주 3회 이상</option>
-          </select>
-        </div>
+            <div class="form-group">
+                <label for="exerciseHours">일주일 운동시간 (시간)</label>
+                <input type="number" id="exerciseHours" min="0" max="80" step="0.1" required />
+            </div>
 
-        <!-- 운동 -->
-        <div class="row">
-          <label for="exercise">운동 시간 (주/시간)</label>
-          <input id="exercise" name="exercise_hours_per_week" type="number" min="0" max="168" required />
-        </div>
+            <div class="form-group">
+                <label for="smoking">흡연 빈도</label>
+                <select id="smoking">
+                    <option value="none">비흡연</option>
+                    <option value="rare">가끔</option>
+                    <option value="light">주 1~2회</option>
+                    <option value="medium">거의 매일</option>
+                    <option value="heavy">하루 반갑 이상</option>
+                </select>
+            </div>
 
-        <!-- 수면 -->
-        <div class="row">
-          <label for="sleep">평균 수면시간 (시간/일)</label>
-          <input id="sleep" name="sleep_hours" type="number" step="0.5" min="0" max="24" required />
-        </div>
+            <div class="form-group">
+                <label for="alcohol">음주 빈도</label>
+                <select id="alcohol">
+                    <option value="none">거의 안 마심</option>
+                    <option value="rare">가끔 모임에서만</option>
+                    <option value="weekly">주 1~2회</option>
+                    <option value="often">주 3회 이상</option>
+                </select>
+            </div>
 
-        <!-- 워라벨 입력 (하루 기준) -->
-        <div class="row">
-          <label for="work">하루 일/학업 시간</label>
-          <input id="work" name="work_hours_per_day" type="number" step="0.5" min="0" max="24" required />
-        </div>
+            <div class="form-group">
+                <label for="mealsPerDay">하루 식사 횟수</label>
+                <input type="number" id="mealsPerDay" min="1" max="10" step="1" value="3" />
+            </div>
 
-        <div class="row">
-          <label for="selfdev">하루 자기계발 시간</label>
-          <input id="selfdev" name="selfdev_hours_per_day" type="number" step="0.5" min="0" max="24" required />
-        </div>
+            <div class="form-group">
+                <label for="workHours">하루 일 / 공부 시간 (시간)</label>
+                <input type="number" id="workHours" min="0" max="24" step="0.5" />
+            </div>
 
-        <div class="row">
-          <label for="leisure">하루 여가/휴식 시간</label>
-          <input id="leisure" name="leisure_hours_per_day" type="number" step="0.5" min="0" max="24" required />
-        </div>
+            <div class="form-group">
+                <label for="leisureHours">하루 여가 시간 (시간)</label>
+                <input type="number" id="leisureHours" min="0" max="24" step="0.5" />
+            </div>
 
-        <div style="margin-top:16px; text-align:right;">
-          <button type="submit">설문 제출</button>
-        </div>
-      </form>
+            <div class="form-group">
+                <label for="restHours">하루 휴식(멍때리기 포함) 시간 (시간)</label>
+                <input type="number" id="restHours" min="0" max="24" step="0.5" />
+            </div>
 
-      <pre id="survey-debug" class="sub"></pre>
+            <div class="form-actions">
+                <button type="submit">내 인생 전적 분석하기</button>
+            </div>
+        </form>
     </section>
 
-    <!-- 2. 지금까지 살아온 시간 -->
-    <section class="card">
-      <h2 class="title">지금까지 살아온 시간</h2>
-      <div id="lived-main" class="stat-main">생년월일을 입력하세요.</div>
+    <!-- 1. 상단 타이머 + 도넛 -->
+    <section class="top-grid">
 
-      <div class="grid">
-        <div class="pill"><div class="label">총 일수</div><div class="value" id="lived-days">-</div></div>
-        <div class="pill"><div class="label">총 시간</div><div class="value" id="lived-hours">-</div></div>
-        <div class="pill"><div class="label">총 분</div><div class="value" id="lived-mins">-</div></div>
-        <div class="pill"><div class="label">총 초</div><div class="value" id="lived-secs">-</div></div>
-        <div class="pill"><div class="label">대략 몇 년?</div><div class="value" id="lived-years">-</div></div>
-      </div>
+        <!-- 좌측 -->
+        <div class="left-panel">
+            <div class="card">
+                <h2>살아온 시간 타이머</h2>
+                <p class="card-desc">태어난 이후 지금까지 흘러온 시간을 실시간으로 보여줍니다.</p>
+                <div id="lived-time" class="timer-value">설문을 먼저 입력해주세요.</div>
+            </div>
+
+            <div class="card">
+                <h2>기대 수명 타이머</h2>
+                <p class="card-desc">통계청 기대수명을 기준으로, 앞으로 남은 시간을 계산합니다.</p>
+                <div id="life-expect-time" class="timer-value">설문을 먼저 입력해주세요.</div>
+            </div>
+
+            <div class="card">
+                <h2>남은 시간으로 내가 할 수 있는 일</h2>
+                <p class="card-desc">남은 시간을 기준으로, 앞으로 할 수 있는 경험들을 계산해 봅니다.</p>
+                <ul id="remaining-activities"></ul>
+            </div>
+        </div>
+
+        <!-- 우측 -->
+        <div class="right-panel card">
+            <h2>전체 기대 수명</h2>
+            <p class="card-desc">살아온 시간과 남은 시간을 하나의 원형 그래프로 보여줍니다.</p>
+            <canvas id="lifeDonutChart"></canvas>
+            <p id="donut-label" class="donut-label"></p>
+        </div>
+
     </section>
 
-    <!-- 3. 남은 예상 수명 -->
-    <section class="card">
-      <h2 class="title">남은 예상 수명</h2>
-      <div id="remain-main" class="stat-main">생년월일 입력 필요</div>
+    <!-- 2. 하단 카드 (각각 한 줄 전체) -->
+    <section class="bottom-grid">
 
-      <div class="grid">
-        <div class="pill"><div class="label">남은 연수</div><div class="value" id="remain-years">-</div></div>
-        <div class="pill"><div class="label">남은 일수</div><div class="value" id="remain-days">-</div></div>
-        <div class="pill"><div class="label">남은 시간</div><div class="value" id="remain-hours">-</div></div>
-        <div class="pill"><div class="label">예상 도달 시점</div><div class="value" id="expected-death-date">-</div></div>
-      </div>
+        <!-- 신체 건강 지표 -->
+        <div class="card">
+            <h2>신체 건강 지표</h2>
+            <p class="card-desc">
+                키와 몸무게, 운동량 기반으로 BMI와 AI 라이프스타일 타입을 분석합니다.
+            </p>
+
+            <div class="stat-line">
+                <strong>BMI:</strong> <span id="bmi">-</span>
+            </div>
+
+            <h3>AI 라이프스타일 분석</h3>
+            <div class="lifestyle-box">
+                <p><strong id="lifestyle-type">설문을 먼저 입력해주세요.</strong></p>
+                <p id="lifestyle-desc">BMI와 주간 운동시간을 기반으로 당신의 라이프스타일 유형을 분류합니다.</p>
+                <p class="sub-stat" id="lifestyle-detail"></p>
+            </div>
+        </div>
+
+        <!-- 생활 습관 랭킹 -->
+        <div class="card">
+            <h2>생활 습관 랭킹</h2>
+            <p class="card-desc">
+                수면, 운동, 흡연, 음주 습관을 점수화하여, 가상의 전체 인구와 비교한 순위를 보여줍니다.
+            </p>
+
+            <div id="habit-rankings"></div>
+
+            <h3>AI 건강 점수</h3>
+            <div class="ai-score">
+                <span id="ai-score-value">-</span> / 100
+            </div>
+            <p id="ai-score-desc">
+                설문을 입력하면 AI가 전반적인 건강 점수를 계산해줍니다.
+            </p>
+        </div>
+
+        <!-- 삶의 밸런스 -->
+        <div class="card">
+            <h2>삶의 밸런스</h2>
+            <p class="card-desc">
+                하루를 일/공부, 여가, 휴식으로 나누어 얼마나 균형 잡혀 있는지 확인합니다.
+            </p>
+
+            <div id="balance-chart"></div>
+            <p id="balance-desc"></p>
+        </div>
+
     </section>
 
-    <!-- 4. 앞으로 남은 시간으로 할 수 있는 것들 -->
-    <section id="fun-section" class="card">
-      <h2 class="title">앞으로 남은 시간으로 할 수 있는 것들</h2>
-      <p class="sub">
-        (2025년 최저시급 10,030원 / 책 1권=6시간 / 국토대장정=20일 / 세계일주=90일 기준)
-      </p>
+</main>
 
-      <div class="grid">
-        <div class="pill">
-          <div class="label">일만 한다면 벌 수 있는 돈</div>
-          <div class="value" id="fun-money">-</div>
-        </div>
-
-        <div class="pill">
-          <div class="label">읽을 수 있는 책</div>
-          <div class="value" id="fun-books">-</div>
-        </div>
-
-        <div class="pill">
-          <div class="label">앞으로 꿀잠 잘 수 있는 날</div>
-          <div class="value" id="fun-sleep-days">-</div>
-          <div class="sub" id="fun-sleep-sub"></div>
-        </div>
-
-        <div class="pill">
-          <div class="label">국토대장정 할 수 있는 횟수</div>
-          <div class="value" id="fun-korea-walks">-</div>
-        </div>
-
-        <div class="pill">
-          <div class="label">세계일주 할 수 있는 횟수</div>
-          <div class="value" id="fun-world-trips">-</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 5. 신체 건강 지표 (BMI) -->
-    <section id="health-section" class="card">
-      <h2 class="title">신체 건강 지표 (BMI)</h2>
-      <p class="sub">BMI는 체중(kg) ÷ [키(m)]² 로 계산하며, 아시아 기준(18.5~23 정상)을 사용합니다.</p>
-
-      <div class="grid">
-        <div class="pill">
-          <div class="label">현재 BMI</div>
-          <div class="value" id="health-bmi">-</div>
-          <div class="sub" id="health-bmi-category"></div>
-        </div>
-
-        <div class="pill">
-          <div class="label">정상 범위 기준 몸무게</div>
-          <div class="value" id="health-weight-range">-</div>
-          <div class="sub">BMI 18.5 ~ 23 기준</div>
-        </div>
-      </div>
-
-      <p class="sub" id="health-comment"></p>
-    </section>
-
-    <!-- 6. 삶의 밸런스 지표 (워라벨) -->
-    <section id="balance-section" class="card">
-      <h2 class="title">삶의 밸런스 (수면/일/자기계발/여가)</h2>
-      <p class="sub">
-        입력한 하루 기준 수면·일/학업·자기계발·여가 시간의 비율입니다.
-        (합계가 24시간과 다르면 상대 비율만 사용합니다.)
-      </p>
-
-      <div class="rank-list">
-
-        <div class="rank-row">
-          <div class="rank-item-label">수면</div>
-          <div class="rank-item-bar">
-            <div class="rank-bar">
-              <div class="rank-bar-fill" id="balance-sleep-bar"></div>
-            </div>
-          </div>
-          <div class="rank-item-percent" id="balance-sleep">-</div>
-        </div>
-
-        <div class="rank-row">
-          <div class="rank-item-label">일/학업</div>
-          <div class="rank-item-bar">
-            <div class="rank-bar">
-              <div class="rank-bar-fill" id="balance-work-bar"></div>
-            </div>
-          </div>
-          <div class="rank-item-percent" id="balance-work">-</div>
-        </div>
-
-        <div class="rank-row">
-          <div class="rank-item-label">자기계발</div>
-          <div class="rank-item-bar">
-            <div class="rank-bar">
-              <div class="rank-bar-fill" id="balance-self-bar"></div>
-            </div>
-          </div>
-          <div class="rank-item-percent" id="balance-self">-</div>
-        </div>
-
-        <div class="rank-row">
-          <div class="rank-item-label">여가/휴식</div>
-          <div class="rank-item-bar">
-            <div class="rank-bar">
-              <div class="rank-bar-fill" id="balance-leisure-bar"></div>
-            </div>
-          </div>
-          <div class="rank-item-percent" id="balance-leisure">-</div>
-        </div>
-
-      </div>
-
-      <p class="sub" id="balance-comment"></p>
-    </section>
-
-    <!-- 7. 생활습관 랭킹 -->
-    <section id="rank-section" class="card">
-      <h2 class="title">생활습관 랭킹 (상위 %는 낮을수록 좋음)</h2>
-
-      <div class="rank-list">
-
-        <div class="rank-row">
-          <div class="rank-item-label">흡연</div>
-          <div class="rank-item-bar">
-            <div class="rank-bar">
-              <div class="rank-bar-fill" id="rank-smoking-bar"></div>
-            </div>
-          </div>
-          <div class="rank-item-percent" id="rank-smoking">-</div>
-        </div>
-
-        <div class="rank-row">
-          <div class="rank-item-label">음주</div>
-          <div class="rank-item-bar">
-            <div class="rank-bar">
-              <div class="rank-bar-fill" id="rank-alcohol-bar"></div>
-            </div>
-          </div>
-          <div class="rank-item-percent" id="rank-alcohol">-</div>
-        </div>
-
-        <div class="rank-row">
-          <div class="rank-item-label">수면</div>
-          <div class="rank-item-bar">
-            <div class="rank-bar">
-              <div class="rank-bar-fill" id="rank-sleep-bar"></div>
-            </div>
-          </div>
-          <div class="rank-item-percent" id="rank-sleep">-</div>
-        </div>
-
-        <div class="rank-row">
-          <div class="rank-item-label">운동</div>
-          <div class="rank-item-bar">
-            <div class="rank-bar">
-              <div class="rank-bar-fill" id="rank-exercise-bar"></div>
-            </div>
-          </div>
-          <div class="rank-item-percent" id="rank-exercise">-</div>
-        </div>
-
-      </div>
-    </section>
-
-  </div>
-
-  <script src="app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
