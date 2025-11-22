@@ -79,6 +79,22 @@
           <input id="sleep" name="sleep_hours" type="number" step="0.5" min="0" max="24" required />
         </div>
 
+        <!-- 워라벨 입력 (하루 기준) -->
+        <div class="row">
+          <label for="work">하루 일/학업 시간</label>
+          <input id="work" name="work_hours_per_day" type="number" step="0.5" min="0" max="24" required />
+        </div>
+
+        <div class="row">
+          <label for="selfdev">하루 자기계발 시간</label>
+          <input id="selfdev" name="selfdev_hours_per_day" type="number" step="0.5" min="0" max="24" required />
+        </div>
+
+        <div class="row">
+          <label for="leisure">하루 여가/휴식 시간</label>
+          <input id="leisure" name="leisure_hours_per_day" type="number" step="0.5" min="0" max="24" required />
+        </div>
+
         <div style="margin-top:16px; text-align:right;">
           <button type="submit">설문 제출</button>
         </div>
@@ -87,7 +103,7 @@
       <pre id="survey-debug" class="sub"></pre>
     </section>
 
-    <!-- 2. 인생 타이머 -->
+    <!-- 2. 지금까지 살아온 시간 -->
     <section class="card">
       <h2 class="title">지금까지 살아온 시간</h2>
       <div id="lived-main" class="stat-main">생년월일을 입력하세요.</div>
@@ -101,7 +117,7 @@
       </div>
     </section>
 
-    <!-- 3. 남은 기대 수명 -->
+    <!-- 3. 남은 예상 수명 -->
     <section class="card">
       <h2 class="title">남은 예상 수명</h2>
       <div id="remain-main" class="stat-main">생년월일 입력 필요</div>
@@ -114,44 +130,7 @@
       </div>
     </section>
 
-    <!-- 4. 생활습관 랭킹 -->
-    <section id="rank-section" class="card">
-      <h2 class="title">생활습관 랭킹 (한국 전체 기준)</h2>
-
-      <div class="grid">
-
-        <div class="pill">
-          <div class="label">흡연</div>
-          <div class="value" id="rank-smoking">-</div>
-          <div class="rank-bar"><div class="rank-bar-fill" id="rank-smoking-bar"></div></div>
-          <div class="sub" id="rank-smoking-text"></div>
-        </div>
-
-        <div class="pill">
-          <div class="label">음주</div>
-          <div class="value" id="rank-alcohol">-</div>
-          <div class="rank-bar"><div class="rank-bar-fill" id="rank-alcohol-bar"></div></div>
-          <div class="sub" id="rank-alcohol-text"></div>
-        </div>
-
-        <div class="pill">
-          <div class="label">수면</div>
-          <div class="value" id="rank-sleep">-</div>
-          <div class="rank-bar"><div class="rank-bar-fill" id="rank-sleep-bar"></div></div>
-          <div class="sub" id="rank-sleep-text"></div>
-        </div>
-
-        <div class="pill">
-          <div class="label">운동</div>
-          <div class="value" id="rank-exercise">-</div>
-          <div class="rank-bar"><div class="rank-bar-fill" id="rank-exercise-bar"></div></div>
-          <div class="sub" id="rank-exercise-text"></div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- 5. 앞으로 남은 시간으로 할 수 있는 것들 -->
+    <!-- 4. 앞으로 남은 시간으로 할 수 있는 것들 -->
     <section id="fun-section" class="card">
       <h2 class="title">앞으로 남은 시간으로 할 수 있는 것들</h2>
       <p class="sub">
@@ -184,6 +163,132 @@
           <div class="label">세계일주 할 수 있는 횟수</div>
           <div class="value" id="fun-world-trips">-</div>
         </div>
+      </div>
+    </section>
+
+    <!-- 5. 신체 건강 지표 (BMI) -->
+    <section id="health-section" class="card">
+      <h2 class="title">신체 건강 지표 (BMI)</h2>
+      <p class="sub">BMI는 체중(kg) ÷ [키(m)]² 로 계산하며, 아시아 기준(18.5~23 정상)을 사용합니다.</p>
+
+      <div class="grid">
+        <div class="pill">
+          <div class="label">현재 BMI</div>
+          <div class="value" id="health-bmi">-</div>
+          <div class="sub" id="health-bmi-category"></div>
+        </div>
+
+        <div class="pill">
+          <div class="label">정상 범위 기준 몸무게</div>
+          <div class="value" id="health-weight-range">-</div>
+          <div class="sub">BMI 18.5 ~ 23 기준</div>
+        </div>
+      </div>
+
+      <p class="sub" id="health-comment"></p>
+    </section>
+
+    <!-- 6. 삶의 밸런스 지표 (워라벨) -->
+    <section id="balance-section" class="card">
+      <h2 class="title">삶의 밸런스 (수면/일/자기계발/여가)</h2>
+      <p class="sub">
+        입력한 하루 기준 수면·일/학업·자기계발·여가 시간의 비율입니다.
+        (합계가 24시간과 다르면 상대 비율만 사용합니다.)
+      </p>
+
+      <div class="rank-list">
+
+        <div class="rank-row">
+          <div class="rank-item-label">수면</div>
+          <div class="rank-item-bar">
+            <div class="rank-bar">
+              <div class="rank-bar-fill" id="balance-sleep-bar"></div>
+            </div>
+          </div>
+          <div class="rank-item-percent" id="balance-sleep">-</div>
+        </div>
+
+        <div class="rank-row">
+          <div class="rank-item-label">일/학업</div>
+          <div class="rank-item-bar">
+            <div class="rank-bar">
+              <div class="rank-bar-fill" id="balance-work-bar"></div>
+            </div>
+          </div>
+          <div class="rank-item-percent" id="balance-work">-</div>
+        </div>
+
+        <div class="rank-row">
+          <div class="rank-item-label">자기계발</div>
+          <div class="rank-item-bar">
+            <div class="rank-bar">
+              <div class="rank-bar-fill" id="balance-self-bar"></div>
+            </div>
+          </div>
+          <div class="rank-item-percent" id="balance-self">-</div>
+        </div>
+
+        <div class="rank-row">
+          <div class="rank-item-label">여가/휴식</div>
+          <div class="rank-item-bar">
+            <div class="rank-bar">
+              <div class="rank-bar-fill" id="balance-leisure-bar"></div>
+            </div>
+          </div>
+          <div class="rank-item-percent" id="balance-leisure">-</div>
+        </div>
+
+      </div>
+
+      <p class="sub" id="balance-comment"></p>
+    </section>
+
+    <!-- 7. 생활습관 랭킹 -->
+    <section id="rank-section" class="card">
+      <h2 class="title">생활습관 랭킹 (상위 %는 낮을수록 좋음)</h2>
+
+      <div class="rank-list">
+
+        <div class="rank-row">
+          <div class="rank-item-label">흡연</div>
+          <div class="rank-item-bar">
+            <div class="rank-bar">
+              <div class="rank-bar-fill" id="rank-smoking-bar"></div>
+            </div>
+          </div>
+          <div class="rank-item-percent" id="rank-smoking">-</div>
+        </div>
+
+        <div class="rank-row">
+          <div class="rank-item-label">음주</div>
+          <div class="rank-item-bar">
+            <div class="rank-bar">
+              <div class="rank-bar-fill" id="rank-alcohol-bar"></div>
+            </div>
+          </div>
+          <div class="rank-item-percent" id="rank-alcohol">-</div>
+        </div>
+
+        <div class="rank-row">
+          <div class="rank-item-label">수면</div>
+          <div class="rank-item-bar">
+            <div class="rank-bar">
+              <div class="rank-bar-fill" id="rank-sleep-bar"></div>
+            </div>
+          </div>
+          <div class="rank-item-percent" id="rank-sleep">-</div>
+        </div>
+
+        <div class="rank-row">
+          <div class="rank-item-label">운동</div>
+          <div class="rank-item-bar">
+            <div class="rank-bar">
+              <div class="rank-bar-fill" id="rank-exercise-bar"></div>
+            </div>
+          </div>
+          <div class="rank-item-percent" id="rank-exercise">-</div>
+        </div>
+
       </div>
     </section>
 
