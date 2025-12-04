@@ -3,7 +3,7 @@
 본 프로젝트는 교육 및 개인 프로젝트 목적의 프론트엔드 웹 애플리케이션입니다.
 
 ##  Live Demo
-**https://your-username.github.io/yourlife-gg/**
+**[https://your-username.github.io/yourlife-gg/](https://sw209.github.io/Open_Sourse_Software/)**
 
 ---
 
