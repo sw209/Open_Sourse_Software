@@ -57,7 +57,6 @@
 	<img src="assets/BMI.png" width="1000">
 	</p>
 
-<<<<<<< HEAD
 	### 2-4. 생활습관 점수
 	- 수면, 운동, 흡연, 음주 항목별 점수 부여
 	- 시각적인 바 그래프 형태로 출력
@@ -74,12 +73,6 @@
 	<p align="center">
 	<img src="assets/ai_score.png" width="1000">
 	</p>
-=======
-### Data & Model
-- 대한민국 통계청 2023 완전생명표
-- Kaggle Healthy Lifestyle 데이터 기반 ML 참고
-- 커스텀 생활 습관 점수 모델
->>>>>>> d91d3b6061ce4c5c1de9d208435d6cb419bf65f4
 
 	### 2-6. 삶의 밸런스 분석
 	- 일/자기개발/여가 시간 비율 분석
@@ -113,7 +106,6 @@
 
 	---
 
-<<<<<<< HEAD
 ## 4. 프로젝트 구조
 
 ```text
@@ -126,15 +118,3 @@ project/
 ├── lifestyle_model.json           # 라이프스타일 분석 모델 정의
 ├── Lifestyle_and_Health_dataset.csv  # 참고용 라이프스타일·건강 데이터셋
 └── README.md
-=======
-## 3. 프로젝트 구조
-project/
--│── index.html
--│── style.css
--│── app.js
--│── assets/ # 스크린샷/이미지 저장 폴더
--│── health_score_model.json
--│── lifestyle_model.json
--│── Lifestyle_and_Health_dataset.csv
--│── README.md
->>>>>>> d91d3b6061ce4c5c1de9d208435d6cb419bf65f4
