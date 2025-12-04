@@ -58,12 +58,6 @@ YourLife.GG는 사용자의 생년월일, 성별, 신체 정보, 생활 습관 �
 
 ---
 
-## 3. 기술 스택 (Tech Stack)
-
-### Frontend
-- HTML5, CSS3, JavaScript
-- Chart.js
-
 ### Data & Model
 - 대한민국 통계청 2023 완전생명표
 - Kaggle Healthy Lifestyle 데이터 기반 ML 참고
@@ -74,13 +68,13 @@ YourLife.GG는 사용자의 생년월일, 성별, 신체 정보, 생활 습관 �
 
 ---
 
-## 4. 프로젝트 구조
+## 3. 프로젝트 구조
 project/
-│── index.html
-│── style.css
-│── app.js
-│── assets/ # 스크린샷/이미지 저장 폴더
-│── health_score_model.json
-│── lifestyle_model.json
-│── Lifestyle_and_Health_dataset.csv
-│── README.md
+-│── index.html
+-│── style.css
+-│── app.js
+-│── assets/ # 스크린샷/이미지 저장 폴더
+-│── health_score_model.json
+-│── lifestyle_model.json
+-│── Lifestyle_and_Health_dataset.csv
+-│── README.md
