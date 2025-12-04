@@ -289,6 +289,15 @@ button[type="submit"]:active {
     color: var(--text-sub);
 }
 
+.bmi-label-chip {
+    margin-left: 8px;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    background: rgba(255, 255, 255, 0.08); /* 카드보다 살짝 밝은 배경 */
+    color: #7dd3fc; /* Blue-Neon 느낌 */
+}
+
 /* 생활 습관 랭킹 */
 #habit-rankings {
     margin-top: 6px;

@@ -260,10 +260,31 @@ function updateRemainingActivities(remaining) {
 ================================ */
 
 function bmiFeedback(bmi) {
-    if (bmi < 18.5) return "저체중 범위입니다. 단백질과 칼로리 섭취를 조금 늘리고, 가벼운 근력 운동을 병행하면 좋습니다.";
-    if (bmi < 23)   return "정상 체중 범위입니다. 현재의 식단·운동 습관을 유지하는 것이 중요합니다.";
-    if (bmi < 25)   return "과체중에 가까운 편입니다. 간단한 유산소 운동과 간식/야식 줄이기가 도움이 됩니다.";
-    return "비만 범위입니다. 식습관 조절과 규칙적인 운동이 건강을 지키는 데 필요합니다.";
+    if (bmi < 18.5) {
+        return "저체중 범위입니다. 식사량과 단백질·칼로리 섭취를 조금 늘리고, 가벼운 근력 운동으로 체력을 키우는 것이 좋습니다.";
+    }
+    if (bmi < 23) {
+        return "정상 체중 범위입니다. 현재의 식단과 운동, 수면 습관을 유지하는 것이 가장 중요합니다.";
+    }
+    if (bmi < 25) {
+        return "비만 전 단계(과체중)입니다. 간식·야식과 당분 섭취를 줄이고, 주 3회 이상 가벼운 유산소 운동을 시작해 보면 좋습니다.";
+    }
+    if (bmi < 30) {
+        return "1단계 비만 범위입니다. 운동량을 늘리고, 규칙적인 식사와 탄수화물·지방 조절을 통해 체중을 서서히 감량하는 것이 권장됩니다.";
+    }
+    if (bmi < 35) {
+        return "2단계 비만 범위입니다. 장기적인 건강을 위해 식단 관리와 함께 주기적인 운동 계획이 필요합니다. 필요하다면 전문가와 상담해 보는 것도 좋습니다.";
+    }
+    return "3단계 비만(고도비만) 범위입니다. 심혈관 질환 등의 위험이 높아질 수 있어, 의료진과 상의하여 체계적인 체중 관리와 생활습관 개선을 진행하는 것이 좋습니다.";
+}
+
+function bmiCategoryLabel(bmi) {
+    if (bmi < 18.5) return "저체중";
+    if (bmi < 23) return "정상 체중";
+    if (bmi < 25) return "과체중";
+    if (bmi < 30) return "1단계 비만";
+    if (bmi < 35) return "2단계 비만";
+    return "3단계 비만";
 }
 
 const lifestyleDescriptions = {
@@ -290,12 +311,26 @@ const lifestyleDescriptions = {
 };
 
 function classifyLifestyle(bmi, weeklyExerciseHours) {
-    if (bmi < 18.5) return 0;
-    if (bmi < 23 && weeklyExerciseHours >= 3) return 1;
-    if (bmi >= 23 && weeklyExerciseHours >= 3) return 2;
+    const isActive = weeklyExerciseHours >= 3; // 주 3시간 이상이면 '운동하는 편'
+
+    // 저체중 → 슬림 활동형
+    if (bmi < 18.5) {
+        return 0;
+    }
+
+    // 정상 범위
+    if (bmi < 23) {
+        return isActive ? 1 : 0;
+    }
+
+    // 비만 전 단계 ~ 1단계 비만
+    if (bmi < 30) {
+        return isActive ? 2 : 3;
+    }
+
+    // 2·3단계 비만 이상은 운동 여부와 상관없이 고위험 비만형
     return 3;
 }
-
 /* ================================
    생활 습관 점수
 ================================ */
@@ -427,6 +462,7 @@ function computeAIHealthScore(age, bmi, exerciseHours, sleepHours, smoking, alco
 }
 
 // AI 건강 점수 → 화면에 표시 + 설명 생성
+// AI 건강 점수 → 화면에 표시 + 설명 생성
 function updateAIHealthScore(age, bmi, exerciseHours, sleepHours, smoking, alcohol) {
     const valueEl = document.getElementById("ai-score-value");
     const descEl  = document.getElementById("ai-score-desc");
@@ -441,36 +477,52 @@ function updateAIHealthScore(age, bmi, exerciseHours, sleepHours, smoking, alcoh
     const score = computeAIHealthScore(age, bmi, exerciseHours, sleepHours, smoking, alcohol);
     valueEl.textContent = score;
 
+    // ── 점수대별 기본 해석 ──
+    // 설계 의도:
+    // - 건강 관리가 잘 되는 사람들: 90점대
+    // - 일반적인 성인 평균: 80점 전후
     let baseMsg = "";
-    if (score >= 80) {
-        baseMsg = "전반적으로 매우 좋은 생활 패턴입니다. 지금 리듬을 유지하는 것이 가장 중요합니다.";
-    } else if (score >= 60) {
-        baseMsg = "꽤 괜찮은 편이지만, 수면·운동·식습관 중 한두 가지를 조정하면 더 좋아질 수 있습니다.";
-    } else if (score >= 40) {
-        baseMsg = "여러 요소에서 개선 여지가 보입니다. 부담되지 않는 영역부터 하나씩 바꿔보는 걸 추천합니다.";
+    if (score >= 90) {
+        baseMsg =
+            "건강 관리가 매우 잘 되고 있는 상위 그룹에 가깝습니다. " +
+            "생활습관이 전반적으로 안정적이며, 현재 패턴을 유지하는 것이 가장 중요합니다.";
+    } else if (score >= 80) {
+        baseMsg =
+            "일반적인 성인 평균(약 80점)보다 조금 좋은 편입니다. " +
+            "수면, 운동, 식습관 중 한두 부분만 더 보완하면 90점대에 가까워질 수 있습니다.";
+    } else if (score >= 65) {
+        baseMsg =
+            "대략 평균 수준이거나 약간 낮은 편입니다. " +
+            "몇 가지 생활습관을 조정하면 80점대까지 충분히 올릴 수 있는 구간입니다.";
     } else {
-        baseMsg = "건강 지표가 전반적으로 낮게 나왔습니다. 생활 패턴을 한 번 진지하게 점검해 보는 것이 좋겠습니다.";
+        baseMsg =
+            "여러 건강 지표에서 개선 여지가 큰 상태입니다. " +
+            "한 번에 다 바꾸기보다는, 부담이 적은 습관부터 차근차근 조정해 보는 것이 좋겠습니다.";
     }
 
+    // ── 구체적인 개선 팁 ──
     const tips = [];
-    if (scoreSleep(sleepHours) < 60) {
-        tips.push("· 수면 시간은 7~9시간 사이로 맞추고, 취침·기상 시간을 일정하게 유지해 보세요.");
+
+    if (scoreSleep(sleepHours) < 80) {
+        tips.push("· 수면 시간은 7~9시간 사이로 맞추고, 취침·기상 시간을 최대한 일정하게 유지해 보세요.");
     }
-    if (scoreExercise(exerciseHours) < 60) {
-        tips.push("· 일주일에 최소 3일, 하루 20~30분 정도의 가벼운 유산소/걷기 운동부터 시작해 보는 것을 권장합니다.");
+    if (scoreExercise(exerciseHours) < 80) {
+        tips.push("· 일주일에 최소 3일, 하루 20~30분 정도의 가벼운 걷기나 유산소 운동부터 꾸준히 실천해 보세요.");
     }
     if (scoreSmoking(smoking) < 80) {
-        tips.push("· 흡연량을 한 단계라도 줄이면 심혈관·호흡기 질환 위험이 빠르게 감소합니다.");
+        tips.push("· 흡연량을 한 단계만 줄여도 심혈관·호흡기 질환 위험이 빠르게 감소합니다.");
     }
-    if (scoreAlcohol(alcohol) < 70) {
-        tips.push("· 음주 횟수를 줄이거나, 마시는 날에도 양과 속도를 조절해 보세요. 주 2회를 넘지 않도록 목표를 잡으면 좋습니다.");
+    if (scoreAlcohol(alcohol) < 80) {
+        tips.push("· 음주 빈도나 양을 줄이고, 가능한 한 '가끔' 수준(주 1회 이하)으로 맞추는 것을 목표로 해 보세요.");
     }
 
-    let finalMsg = baseMsg;
+    let finalMsg = "<strong>AI 건강 점수 해석</strong><br>" + baseMsg;
+
     if (tips.length > 0) {
         finalMsg += "<br><br><strong>개선하면 좋은 부분:</strong><br>" + tips.join("<br>");
     }
 
+    // BMI 관련 문장은 이쪽에서 더 이상 넣지 않음
     descEl.innerHTML = finalMsg;
 }
 
@@ -580,8 +632,17 @@ document.getElementById("life-form").addEventListener("submit", function (e) {
     updateRemainingActivities(remaining);
 
     /* --- BMI & 라이프스타일 --- */
-    const bmi = weight / Math.pow(height / 100, 2);
-    document.getElementById("bmi").textContent = bmi ? bmi.toFixed(1) : "-";
+   const bmi = weight / Math.pow(height / 100, 2);
+   const bmiValueEl = document.getElementById("bmi");
+   const bmiLabelEl = document.getElementById("bmi-label");
+
+   if (!Number.isFinite(bmi)) {
+       bmiValueEl.textContent = "-";
+       bmiLabelEl.textContent = "";
+   } else {
+       bmiValueEl.textContent = bmi.toFixed(1);
+       bmiLabelEl.textContent = bmiCategoryLabel(bmi); // 라벨 넣기!
+   }
 
     const lifestyleCluster = classifyLifestyle(bmi, exercise);
     const info = lifestyleDescriptions[lifestyleCluster];
@@ -595,6 +656,8 @@ document.getElementById("life-form").addEventListener("submit", function (e) {
     lifestyleDetailEl.textContent =
         `내 BMI ${bmi.toFixed(1)}, 주간 운동 ${exercise.toFixed(1)}시간. ` +
         info.advice;
+
+
 
     /* --- 생활 습관 랭킹 --- */
     updateHabitRankings(sleep, exercise, smoking, alcohol);
