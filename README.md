@@ -27,13 +27,16 @@ YourLife.GG는 사용자의 생년월일, 성별, 신체 정보, 생활 습관 �
 - 남은 시간 계산 및 전체 시간 대비 비율 시각화
 - Chart.js 도넛 차트로 시각적 표현
 
-<p align="center">
-  <img src="assets/life_timer.png" width="1000">
-</p>
-
-<p align="center">
-  <img src="assets/donut_graph.png" width="450">
-</p>
+<table>
+  <tr>
+    <td>
+      <img src="assets/life_timer.png" width="700">
+    </td>
+    <td>
+      <img src="assets/donut_graph.png" width="350">
+    </td>
+  </tr>
+</table>
 
 ### 2-2. 남은 시간으로 할 수 있는 활동 계산
 - 최저임금 기준 벌 수 있는 금액
@@ -76,7 +79,7 @@ YourLife.GG는 사용자의 생년월일, 성별, 신체 정보, 생활 습관 �
 
 ### 2-6. 삶의 밸런스 분석
 - 일/자기개발/여가 시간 비율 분석
-- 비율 기반 상세 설명 제공
+- 비율 기반 설명 제공
 - 자동 막대 그래프 시각화 제공
 
 <p align="center">
