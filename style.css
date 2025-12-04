@@ -354,9 +354,17 @@ button[type="submit"]:active {
 .balance-leisure { background: var(--accent-yellow); }
 
 #balance-desc {
+    font-size: 1rem;              /* 기존보다 20~25% 더 큼 */
+    color: #d8d8d8;               /* 너무 밝지도 어둡지도 않게 */
     margin-top: 10px;
-    font-size: 12px;
-    color: var(--text-sub);
+    line-height: 1.45;            /* 줄 간격 여유 있게 */
+    font-weight: 400;             /* 가벼운 두께 */
+}
+
+@media (min-width: 768px) {
+    #balance-desc {
+        font-size: 1.1rem;        /* PC에서는 더 읽기 좋게 */
+    }
 }
 
 /* 반응형 */
@@ -373,4 +381,56 @@ button[type="submit"]:active {
     header h1 {
         font-size: 26px;
     }
+}
+
+/* Footer Base */
+.site-footer {
+    margin-top: 60px;
+    padding: 35px 20px;
+    background: #0f1219;
+    border-top: 1px solid #272a33;
+    color: #c9ccd4;
+    font-size: 0.92rem;
+}
+
+/* Large title */
+.site-footer .footer-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #4ee6c1;
+    margin-bottom: 14px;
+}
+
+/* Kaggle subsection title */
+.site-footer .footer-subtitle {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #aab2ff;
+    margin: 18px 0 6px 0;
+}
+
+/* Kaggle links */
+.site-footer .footer-kaggle a {
+    color: #70b8ff;
+    text-decoration: none;
+}
+
+.site-footer .footer-kaggle a:hover {
+    text-decoration: underline;
+}
+
+/* License notice */
+.site-footer .footer-license {
+    margin-top: 20px;
+    color: #9ca0aa;
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+/* Copyright */
+.site-footer .copyright {
+    margin-top: 25px;
+    font-size: 0.85rem;
+    color: #8b8f97;
+    text-align: center;
 }

@@ -23,18 +23,67 @@ function getLivedDiff(birthDate) {
     };
 }
 
-function getLifeExpectancy(gender) {
-    // 대한민국 평균 기대수명 (대략값, 필요하면 상수만 바꿔도 됨)
-    // 예: 통계청 기준 남자 ~80세, 여자 ~86세 근처
-    const male = 80.0;
-    const female = 86.0;
-    return gender === "female" ? female : male;
+// ===============================
+// 대한민국 2023 연령별 기대여명 (여자, 남자)
+// ===============================
+const lifeTableFemale = {
+    0: 86.42, 1: 85.61, 2: 84.62, 3: 83.63, 4: 82.64, 5: 81.65,
+    6: 80.66, 7: 79.66, 8: 78.67, 9: 77.67, 10: 76.68, 11: 75.68,
+    12: 74.69, 13: 73.70, 14: 72.71, 15: 71.72, 16: 70.73, 17: 69.74,
+    18: 68.76, 19: 67.77, 20: 66.79, 21: 65.81, 22: 64.82, 23: 63.84,
+    24: 62.86, 25: 61.88, 26: 60.90, 27: 59.92, 28: 58.94, 29: 57.96,
+    30: 56.98, 31: 56.00, 32: 55.02, 33: 54.05, 34: 53.07, 35: 52.09,
+    36: 51.12, 37: 50.15, 38: 49.17, 39: 48.20, 40: 47.23, 41: 46.27,
+    42: 45.30, 43: 44.34, 44: 43.38, 45: 42.41, 46: 41.45, 47: 40.50,
+    48: 39.54, 49: 38.59, 50: 37.63, 51: 36.68, 52: 35.73, 53: 34.78,
+    54: 33.83, 55: 32.89, 56: 31.95, 57: 31.01, 58: 30.07, 59: 29.13,
+    60: 28.19, 61: 27.26, 62: 26.33, 63: 25.40, 64: 24.48, 65: 23.55,
+    66: 22.63, 67: 21.72, 68: 20.81, 69: 19.91, 70: 19.01, 71: 18.13,
+    72: 17.25, 73: 16.39, 74: 15.54, 75: 14.70, 76: 13.86, 77: 13.05,
+    78: 12.25, 79: 11.48, 80: 10.74, 81: 10.03, 82: 9.35, 83: 8.70,
+    84: 8.08, 85: 7.49, 86: 6.94, 87: 6.42, 88: 5.93, 89: 5.47,
+    90: 5.05, 91: 4.66, 92: 4.30, 93: 3.96, 94: 3.66, 95: 3.38,
+    96: 3.12, 97: 2.89, 98: 2.68, 99: 2.49, 100: 2.32
+};
+
+const lifeTableMale = {
+    0: 80.57, 1: 79.79, 2: 78.80, 3: 77.82, 4: 76.82, 5: 75.83,
+    6: 74.84, 7: 73.85, 8: 72.85, 9: 71.86, 10: 70.86, 11: 69.86,
+    12: 68.87, 13: 67.88, 14: 66.88, 15: 65.90, 16: 64.91, 17: 63.92,
+    18: 62.94, 19: 61.96, 20: 60.98, 21: 60.00, 22: 59.03, 23: 58.05,
+    24: 57.08, 25: 56.11, 26: 55.14, 27: 54.17, 28: 53.20, 29: 52.23,
+    30: 51.27, 31: 50.30, 32: 49.34, 33: 48.37, 34: 47.40, 35: 46.44,
+    36: 45.47, 37: 44.51, 38: 43.55, 39: 42.60, 40: 41.64, 41: 40.69,
+    42: 39.74, 43: 38.80, 44: 37.85, 45: 36.91, 46: 35.98, 47: 35.04,
+    48: 34.11, 49: 33.19, 50: 32.27, 51: 31.36, 52: 30.45, 53: 29.55,
+    54: 28.65, 55: 27.76, 56: 26.88, 57: 26.00, 58: 25.14, 59: 24.27,
+    60: 23.42, 61: 22.56, 62: 21.72, 63: 20.88, 64: 20.05, 65: 19.22,
+    66: 18.41, 67: 17.60, 68: 16.80, 69: 16.01, 70: 15.23, 71: 14.47,
+    72: 13.72, 73: 12.98, 74: 12.26, 75: 11.55, 76: 10.86, 77: 10.17,
+    78: 9.51, 79: 8.87, 80: 8.26, 81: 7.69, 82: 7.15, 83: 6.64,
+    84: 6.17, 85: 5.72, 86: 5.29, 87: 4.90, 88: 4.53, 89: 4.19,
+    90: 3.88, 91: 3.59, 92: 3.32, 93: 3.07, 94: 2.85, 95: 2.64,
+    96: 2.45, 97: 2.28, 98: 2.12, 99: 1.97, 100: 1.84
+};
+
+function computeLifeExpectancy(age, gender) {
+    const table = gender === "male" ? lifeTableMale : lifeTableFemale;
+
+    if (age >= 100) {
+        return age + table[100];
+    }
+
+    const base = table[age];
+    if (base !== undefined) {
+        return parseFloat((age + base).toFixed(1));
+    }
+
+    return parseFloat((age + table[100]).toFixed(1));
 }
 
-function getRemainingDiff(birthDate, gender) {
-    const expectancy = getLifeExpectancy(gender);
+function getRemainingFromExpectancy(birthDate, expectancyYears) {
     const end = new Date(birthDate);
-    end.setFullYear(end.getFullYear() + expectancy);
+    end.setFullYear(end.getFullYear() + expectancyYears);
 
     const now = new Date();
     const diffMs = end - now;
@@ -96,12 +145,15 @@ function updateDonutChart(lived, remaining) {
     });
 
     const labelEl = document.getElementById("donut-label");
+
     if (totalDays === 0) {
         labelEl.textContent = "";
         return;
     }
+
     const livedPct = (livedDays / totalDays) * 100;
     const remainPct = (remainingDays / totalDays) * 100;
+
     labelEl.textContent =
         `지금까지 약 ${livedPct.toFixed(1)}%를 사용했고, ` +
         `약 ${remainPct.toFixed(1)}%가 남아 있습니다.`;
@@ -150,6 +202,9 @@ function updateRemainingActivities(remaining) {
     // 6) 세계일주 (1회 60일)
     const world = Math.max(0, Math.floor(days / 60));
 
+    // 6) 현역병 복무 (1회 1년 6개월 = 548일)
+    const army = Math.max(0, Math.floor(days / 548));
+
     const items = [
         {
             title: "최저임금 기준으로",
@@ -160,7 +215,7 @@ function updateRemainingActivities(remaining) {
             title: "3분카레 공장장이 된다면",
             value: `${curry.toLocaleString()}개`,
             sub: "3분마다 하나씩 쉼 없이 만든다고 가정했습니다."
-        },
+        },	
         {
             title: "읽을 수 있는 책 권수",
             value: `${books.toLocaleString()}권`,
@@ -180,6 +235,11 @@ function updateRemainingActivities(remaining) {
             title: "세계일주",
             value: `${world.toLocaleString()}번`,
             sub: "1회 60일짜리 세계일주를 기준으로 한 대략적인 횟수입니다."
+        },
+        {
+        title: "현역 군복무",
+        value: `${army.toLocaleString()}번`,
+        sub: "1년 6개월(18개월) 기준 현역병 복무를 몇 번 할 수 있는지 계산했습니다."
         }
     ];
 
@@ -481,8 +541,10 @@ document.getElementById("life-form").addEventListener("submit", function (e) {
     const leisureHours = parseFloat(document.getElementById("restHours").value)    || 0;
 
     /* --- 타이머 --- */
-    const lived     = getLivedDiff(birthDate);
-    const remaining = getRemainingDiff(birthDate, gender);
+    const lived = getLivedDiff(birthDate);
+    const age = lived.years;
+    const expectancy = computeLifeExpectancy(age, gender);
+    const remaining = getRemainingFromExpectancy(birthDate, expectancy);
 
     const livedMainEl  = document.getElementById("lived-time");
     const remainMainEl = document.getElementById("life-expect-time");
